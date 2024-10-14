@@ -1,194 +1,1192 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.0",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
+    "title": "Townhall-TrailblazerDX",
+    "version": "DEV",
+    "description": "Demo Instance for Townhall-TrailblazerDX [Download Swagger API JSON](https://Townhall-T-Townhall-T-5658.unitsdb.com/api/v2/swagger.json)"
   },
-  "servers": [
-    {
-      "url": "http://sandbox.mintlify.com"
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-KEY"
+      }
     }
+  },
+  "schemes": [
+    "http",
+    "https"
   ],
   "security": [
     {
-      "bearerAuth": []
+      "ApiKeyAuth": []
     }
   ],
   "paths": {
-    "/plants": {
+    "/api/v2/Exhibitor/all": {
       "get": {
-        "description": "Returns all plants from the system that the user has access to",
+        "tags": [
+          "Account-Exhibitor"
+        ],
+        "summary": "Get All Exhibitor's in the table Exhibitor",
+        "description": "Retrieve a list of all Exhibitor from the database. This endpoint fetches comprehensive details for every Exhibitor recorded in the table.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Exhibitor/aggregate": {
+      "get": {
+        "tags": [
+          "Account-Exhibitor"
+        ],
+        "summary": "Aggregate Exhibitor's from the table Exhibitor",
+        "description": "Aggregated data (such as MIN, MAX, AVG, SUM) for a specific column in the Exhibitor table.",
         "parameters": [
           {
-            "name": "limit",
+            "name": "aggregateName",
             "in": "query",
-            "description": "The maximum number of results to return",
+            "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "enum": [
+                "MIN",
+                "MAX",
+                "AVG",
+                "SUM",
+                "COUNT"
+              ],
+              "default": "MAX"
+            }
+          },
+          {
+            "name": "unitName",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
     },
-    "/plants/{id}": {
+    "/api/v2/Exhibitor": {
+      "post": {
+        "tags": [
+          "Account-Exhibitor"
+        ],
+        "summary": "Create Exhibitor in the table Exhibitor",
+        "description": "Registers a new Exhibitor in the system, adding their details to the database.",
+        "parameters": [
+          {
+            "name": "exb_email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "exb_phone",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "exb_company",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "exb_category",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "Salesforce_Dollar_balance",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Exhibitor/primary_key": {
       "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
+        "tags": [
+          "Account-Exhibitor"
+        ],
+        "summary": "Delete Exhibitor from the table Exhibitor using primary key",
+        "description": "Removes a specified Exhibitor from the database. This operation permanently deletes the Exhibitor's data,Ensure the primary key is correctly specified before executing.",
+        "parameters": [
+          {
+            "name": "exb_email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Exhibitor/primarykey": {
+      "get": {
+        "tags": [
+          "Account-Exhibitor"
+        ],
+        "summary": "Get Exhibitor's from the table Exhibitor using primary key",
+        "description": "Retrieve Exhibitor details from the database. This endpoint fetches comprehensive details for a Exhibitor recorded in the table.",
+        "parameters": [
+          {
+            "name": "exb_email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Exhibitor/primaryKey": {
+      "put": {
+        "tags": [
+          "Account-Exhibitor"
+        ],
+        "summary": "Update Exhibitor from the table Exhibitor using primary key",
+        "description": "Updates existing Exhibitor information in the database. Requires primary key and accepts changes to Exhibitor details,Ensures data integrity and consistency across records.",
+        "parameters": [
+          {
+            "name": "exb_email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "exb_phone",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "exb_company",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "exb_category",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "Salesforce_Dollar_balance",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Partcipant/all": {
+      "get": {
+        "tags": [
+          "Account-Partcipant"
+        ],
+        "summary": "Get All Partcipant's in the table Partcipant",
+        "description": "Retrieve a list of all Partcipant from the database. This endpoint fetches comprehensive details for every Partcipant recorded in the table.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Partcipant/aggregate": {
+      "get": {
+        "tags": [
+          "Account-Partcipant"
+        ],
+        "summary": "Aggregate Partcipant's from the table Partcipant",
+        "description": "Aggregated data (such as MIN, MAX, AVG, SUM) for a specific column in the Partcipant table.",
+        "parameters": [
+          {
+            "name": "aggregateName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "MIN",
+                "MAX",
+                "AVG",
+                "SUM",
+                "COUNT"
+              ],
+              "default": "MAX"
+            }
+          },
+          {
+            "name": "unitName",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Partcipant": {
+      "post": {
+        "tags": [
+          "Account-Partcipant"
+        ],
+        "summary": "Create Partcipant in the table Partcipant",
+        "description": "Registers a new Partcipant in the system, adding their details to the database.",
+        "parameters": [
+          {
+            "name": "ptp_email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "ptp_website",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "ptp_company",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "ptp_function",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "Salesforce_Dollar_balance",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Partcipant/primary_key": {
+      "delete": {
+        "tags": [
+          "Account-Partcipant"
+        ],
+        "summary": "Delete Partcipant from the table Partcipant using primary key",
+        "description": "Removes a specified Partcipant from the database. This operation permanently deletes the Partcipant's data,Ensure the primary key is correctly specified before executing.",
+        "parameters": [
+          {
+            "name": "ptp_email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Partcipant/primarykey": {
+      "get": {
+        "tags": [
+          "Account-Partcipant"
+        ],
+        "summary": "Get Partcipant's from the table Partcipant using primary key",
+        "description": "Retrieve Partcipant details from the database. This endpoint fetches comprehensive details for a Partcipant recorded in the table.",
+        "parameters": [
+          {
+            "name": "ptp_email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Partcipant/primaryKey": {
+      "put": {
+        "tags": [
+          "Account-Partcipant"
+        ],
+        "summary": "Update Partcipant from the table Partcipant using primary key",
+        "description": "Updates existing Partcipant information in the database. Requires primary key and accepts changes to Partcipant details,Ensures data integrity and consistency across records.",
+        "parameters": [
+          {
+            "name": "ptp_email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "ptp_website",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "ptp_company",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "ptp_function",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "Salesforce_Dollar_balance",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Exhibitor_Debit/all": {
+      "get": {
+        "tags": [
+          "Transaction-Exhibitor_Debit"
+        ],
+        "summary": "Get All Exhibitor_Debit's in the table Exhibitor_Debit",
+        "description": "Retrieve a list of all Exhibitor_Debits from the database. This endpoint fetches comprehensive details for every Exhibitor_Debit recorded in the table.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Exhibitor_Debit": {
+      "post": {
+        "tags": [
+          "Transaction-Exhibitor_Debit"
+        ],
+        "summary": "Create Exhibitor_Debit in the table Exhibitor_Debit",
+        "description": "Registers a new Exhibitor_Debit in the system, adding their details to the database.",
+        "parameters": [
+          {
+            "name": "exb_dbt_date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "exb_dbt_time",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "time"
+            }
+          },
+          {
+            "name": "exb_dbt_desc",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "exb_email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Exhibitor_Debit/id": {
+      "get": {
+        "tags": [
+          "Transaction-Exhibitor_Debit"
+        ],
+        "summary": "Get Exhibitor_Debit's from the table Exhibitor_Debit using Exhibitor_Debit Id",
+        "description": "Retrieve Exhibitor_Debit details from the database. This endpoint fetches comprehensive details for a Exhibitor_Debit recorded in the table",
         "parameters": [
           {
             "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
+            "in": "query",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
+          "200": {
+            "description": "Success"
           }
         }
       }
     },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+    "/api/v2/Participant_Reward/all": {
+      "get": {
+        "tags": [
+          "Transaction-Participant_Reward"
+        ],
+        "summary": "Get All Participant_Reward's in the table Participant_Reward",
+        "description": "Retrieve a list of all Participant_Rewards from the database. This endpoint fetches comprehensive details for every Participant_Reward recorded in the table.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Participant_Reward": {
+      "post": {
+        "tags": [
+          "Transaction-Participant_Reward"
+        ],
+        "summary": "Create Participant_Reward in the table Participant_Reward",
+        "description": "Registers a new Participant_Reward in the system, adding their details to the database.",
+        "parameters": [
+          {
+            "name": "ptp_reward_date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "ptp_reward_time",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "time"
+            }
+          },
+          {
+            "name": "ptp_reward_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "ptp_reward_desc",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "ptp_email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Participant_Reward/id": {
+      "get": {
+        "tags": [
+          "Transaction-Participant_Reward"
+        ],
+        "summary": "Get Participant_Reward's from the table Participant_Reward using Participant_Reward Id",
+        "description": "Retrieve Participant_Reward details from the database. This endpoint fetches comprehensive details for a Participant_Reward recorded in the table",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Participant_Redeem/all": {
+      "get": {
+        "tags": [
+          "Transaction-Participant_Redeem"
+        ],
+        "summary": "Get All Participant_Redeem's in the table Participant_Redeem",
+        "description": "Retrieve a list of all Participant_Redeems from the database. This endpoint fetches comprehensive details for every Participant_Redeem recorded in the table.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Participant_Redeem": {
+      "post": {
+        "tags": [
+          "Transaction-Participant_Redeem"
+        ],
+        "summary": "Create Participant_Redeem in the table Participant_Redeem",
+        "description": "Registers a new Participant_Redeem in the system, adding their details to the database.",
+        "parameters": [
+          {
+            "name": "ptp_redeem_date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "ptp_redeem_time",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "time"
+            }
+          },
+          {
+            "name": "ptp_redeem_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "ptp_redeem_desc",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "ptp_email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Participant_Redeem/id": {
+      "get": {
+        "tags": [
+          "Transaction-Participant_Redeem"
+        ],
+        "summary": "Get Participant_Redeem's from the table Participant_Redeem using Participant_Redeem Id",
+        "description": "Retrieve Participant_Redeem details from the database. This endpoint fetches comprehensive details for a Participant_Redeem recorded in the table",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Exhibitor_Recharge/all": {
+      "get": {
+        "tags": [
+          "Transaction-Exhibitor_Recharge"
+        ],
+        "summary": "Get All Exhibitor_Recharge's in the table Exhibitor_Recharge",
+        "description": "Retrieve a list of all Exhibitor_Recharges from the database. This endpoint fetches comprehensive details for every Exhibitor_Recharge recorded in the table.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Exhibitor_Recharge": {
+      "post": {
+        "tags": [
+          "Transaction-Exhibitor_Recharge"
+        ],
+        "summary": "Create Exhibitor_Recharge in the table Exhibitor_Recharge",
+        "description": "Registers a new Exhibitor_Recharge in the system, adding their details to the database.",
+        "parameters": [
+          {
+            "name": "exb_recharge_date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "exb_recharge_desc",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "exb_email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Exhibitor_Recharge/id": {
+      "get": {
+        "tags": [
+          "Transaction-Exhibitor_Recharge"
+        ],
+        "summary": "Get Exhibitor_Recharge's from the table Exhibitor_Recharge using Exhibitor_Recharge Id",
+        "description": "Retrieve Exhibitor_Recharge details from the database. This endpoint fetches comprehensive details for a Exhibitor_Recharge recorded in the table",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Participant_Recharge/all": {
+      "get": {
+        "tags": [
+          "Transaction-Participant_Recharge"
+        ],
+        "summary": "Get All Participant_Recharge's in the table Participant_Recharge",
+        "description": "Retrieve a list of all Participant_Recharges from the database. This endpoint fetches comprehensive details for every Participant_Recharge recorded in the table.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Participant_Recharge": {
+      "post": {
+        "tags": [
+          "Transaction-Participant_Recharge"
+        ],
+        "summary": "Create Participant_Recharge in the table Participant_Recharge",
+        "description": "Registers a new Participant_Recharge in the system, adding their details to the database.",
+        "parameters": [
+          {
+            "name": "ptp_recharge_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "ptp_recharge_time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "time"
+            }
+          },
+          {
+            "name": "ptp_recharge_desc",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "ptp_email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/Participant_Recharge/id": {
+      "get": {
+        "tags": [
+          "Transaction-Participant_Recharge"
+        ],
+        "summary": "Get Participant_Recharge's from the table Participant_Recharge using Participant_Recharge Id",
+        "description": "Retrieve Participant_Recharge details from the database. This endpoint fetches comprehensive details for a Participant_Recharge recorded in the table",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/item_list/all": {
+      "get": {
+        "tags": [
+          "Item-List"
+        ],
+        "summary": "Get All ItemList 's in the table item_list",
+        "description": "Retrieve a list of all item_list from the database. This endpoint fetches comprehensive details for every item_list recorded in the table.",
+        "parameters": [
+          {
+            "name": "list_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/item_list/params": {
+      "get": {
+        "tags": [
+          "Item-List"
+        ],
+        "summary": "Get All ItemList 's in the table item_list",
+        "description": "Retrieve a list of all item_list from the database. This endpoint fetches comprehensive details for every item_list recorded in the table.",
+        "parameters": [
+          {
+            "name": "list_params",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "list_name",
+                "item_name"
+              ],
+              "default": "item_name"
+            }
+          },
+          {
+            "name": "params_value",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/item_list": {
+      "post": {
+        "tags": [
+          "Item-List"
+        ],
+        "summary": "Create Item-List in the table Item-List",
+        "description": "Registers a new Item-List in the system, adding their details to the database.",
+        "parameters": [
+          {
+            "name": "list_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "item_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "unit_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "item_amount",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/item_list/list_name": {
+      "delete": {
+        "tags": [
+          "Item-List"
+        ],
+        "summary": "Delete Item-List from the table Item-List using primary key",
+        "description": "Removes a specified Item-List from the database. This operation permanently deletes the Item-List's data,Ensure the primary key is correctly specified before executing.",
+        "parameters": [
+          {
+            "name": "list_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/item_list/item/list": {
+      "delete": {
+        "tags": [
+          "Item-List"
+        ],
+        "summary": "Delete Item-List from the table Item-List using primary key",
+        "description": "Removes a specified Item-List from the database. This operation permanently deletes the Item-List's data,Ensure the primary key is correctly specified before executing.",
+        "parameters": [
+          {
+            "name": "list_params",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "list_name",
+                "item_name"
+              ],
+              "default": "item_name"
+            }
+          },
+          {
+            "name": "params_value",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/item_list/item_list_primary_key": {
+      "put": {
+        "tags": [
+          "Item-List"
+        ],
+        "summary": "Updte Item-List in the table Item-List",
+        "description": "Update a Item-List in the system, adding their details to the database.",
+        "parameters": [
+          {
+            "name": "list_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "item_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "unit_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "item_amount",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
       }
     }
   }
