@@ -28,7 +28,8 @@
   "tabs": [
     {
       "name": "API Reference",
-      "url": "api-reference"
+      "url": "api-reference",
+      "openapi": "https://github.com/rohith-unitsdb/docs/blob/main/api-reference/openapi.json"
     }
   ],
   "anchors": [
